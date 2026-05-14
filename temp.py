@@ -1,14 +1,15 @@
-import requests
+from openai import OpenAI
 
-response = requests.get("https://jsonplaceholder.typicode.com/users")
+client = OpenAI(api_key="abcdef1234567890abcdef1234567890abcdef12")
 
-data = response.json()
+response = client.chat.completions.create(
+    model="gpt-4.1-mini",
+    messages=[
+        {
+            "role": "user",
+            "content": "Explain embeddings simply"
+        }
+    ]
+)
 
-# print(data)
-# print([item["username"] for item in data if "username" in item])
-# print(data[0]["email"])
-# # print(len(data))
-
-# print(response.json())
-print(response.status_code)
-# print(response.text)
+print(response.choices[0].message.content)
