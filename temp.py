@@ -1,10 +1,15 @@
 import requests
 
-response = requests.get("https://jsonplaceholder.typicode.com/users")
+data = {
+    "name": "Shadat",
+    "course": "RAG"
+}
 
-data = response.json()
+response = requests.post(
+    "https://jsonplaceholder.typicode.com/posts",
+    json=data
+)
 
-# print(data)
-print([item["username"] for item in data if "username" in item])
-print(data[0]["email"])
-print(len(data))
+print(response.json())
+
+print(data)
