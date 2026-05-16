@@ -1,15 +1,29 @@
 from openai import OpenAI
 
-client = OpenAI(api_key="abcdef1234567890abcdef1234567890abcdef12")
+client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key="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"
+)
 
-response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+completion = client.chat.completions.create(
+    model="meta/llama-3.1-8b-instruct",
     messages=[
         {
             "role": "user",
-            "content": "Explain embeddings simply"
+            "content": "Explain embeddings in simple words"
         }
-    ]
+    ],
+    temperature=0,
+    max_tokens=200,
+    stream=True
 )
 
-print(response.choices[0].message.content)
+for chunk in completion:
+
+    if not chunk.choices:
+        continue
+
+    delta = chunk.choices[0].delta.content
+
+    if delta:
+        print(delta, end="")
